@@ -6,16 +6,15 @@
   <title>Hypetalk Builds</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0e0e0d;
-      --warm: #faf8f5;
-      --muted: #6a6760;
+      --bg: #111110;
+      --warm: #f0ede8;
+      --muted: #555450;
       --accent: #c8a96e;
-      --border: #1f1f1d;
     }
 
     html { scroll-behavior: smooth; }
@@ -35,49 +34,58 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 3rem;
-      background: linear-gradient(to bottom, rgba(14,14,13,0.9), transparent);
+      padding: 1.8rem 2.5rem;
     }
 
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
       font-weight: 400;
-      color: var(--warm);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
       text-decoration: none;
     }
 
-    .nav-right {
+    .nav-count {
       font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.5);
     }
 
     /* HERO */
     .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 4rem 3rem;
       position: relative;
+      height: 100vh;
+      width: 100%;
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-image {
       position: absolute;
       inset: 0;
-      background-image: url('assets/images/wood_quartz_building.png');
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.45);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.05) 40%,
+        rgba(0,0,0,0.55) 100%
+      );
     }
 
     .hero-content {
-      position: relative;
+      position: absolute;
+      bottom: 3.5rem;
+      left: 2.5rem;
+      right: 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -87,6 +95,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(4rem, 9vw, 8rem);
       font-weight: 300;
+      color: #fff;
       line-height: 0.9;
       letter-spacing: -0.02em;
       animation: fadeUp 1s ease 0.3s both;
@@ -103,160 +112,136 @@
     }
 
     .hero-tag {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.3rem;
     }
 
-    .hero-count {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      font-weight: 300;
-      color: var(--accent);
+    .hero-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .hero-sub::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
     }
 
     /* GRID */
-    .grid-section {
-      padding: 6rem 3rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 3rem;
-    }
-
-    .section-title {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+      margin-top: 3px;
     }
 
-    /* Featured item spans 2 cols */
     .grid-item {
       position: relative;
       overflow: hidden;
-      cursor: pointer;
-      background: var(--border);
+      background: #1a1a18;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
     }
 
-    .grid-item.featured {
-      grid-column: span 2;
-    }
+    .grid-item.full { grid-column: span 2; }
 
     .grid-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.6s ease, filter 0.6s ease;
-      filter: brightness(0.85);
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.8s ease;
+      filter: brightness(0.75) saturate(0.9);
     }
 
-    .grid-item:not(.featured) {
-      aspect-ratio: 4/3;
-    }
-
-    .grid-item.featured {
-      aspect-ratio: 16/9;
-    }
+    .grid-item:not(.full) { aspect-ratio: 3/2; }
+    .grid-item.full { aspect-ratio: 21/9; }
 
     .grid-item:hover img {
-      transform: scale(1.04);
-      filter: brightness(1);
+      transform: scale(1.03);
+      filter: brightness(0.95) saturate(1);
     }
 
-    .grid-item-info {
+    .item-info {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 1.5rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-      transform: translateY(4px);
-      transition: transform 0.3s ease;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .grid-item:hover .grid-item-info {
+    .grid-item:hover .item-info {
+      opacity: 1;
       transform: translateY(0);
     }
 
-    .item-label {
-      font-size: 0.6rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.3rem;
-    }
-
-    .item-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+    .item-type {
+      font-size: 0.55rem;
       font-weight: 400;
-      color: var(--warm);
-      line-height: 1.2;
-    }
-
-    .grid-item.featured .item-title {
-      font-size: 1.6rem;
-    }
-
-    /* ABOUT STRIP */
-    .about-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 4rem 3rem;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: center;
-      max-width: 1400px;
-      margin: 0 auto 6rem;
-    }
-
-    .about-label {
-      font-size: 0.65rem;
-      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .about-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      line-height: 1.5;
-      color: var(--warm);
-    }
-
-    .about-text em {
-      font-style: italic;
       color: var(--accent);
+      margin-bottom: 0.25rem;
     }
+
+    .item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--warm);
+      line-height: 1.1;
+    }
+
+    .grid-item.full .item-name { font-size: 1.8rem; }
+
+    .item-index {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      color: rgba(240,237,232,0.25);
+    }
+
+    /* Stagger */
+    .grid-item:nth-child(1)  { animation-delay: 0.05s; }
+    .grid-item:nth-child(2)  { animation-delay: 0.1s; }
+    .grid-item:nth-child(3)  { animation-delay: 0.15s; }
+    .grid-item:nth-child(4)  { animation-delay: 0.2s; }
+    .grid-item:nth-child(5)  { animation-delay: 0.25s; }
+    .grid-item:nth-child(6)  { animation-delay: 0.3s; }
+    .grid-item:nth-child(7)  { animation-delay: 0.35s; }
+    .grid-item:nth-child(8)  { animation-delay: 0.4s; }
+    .grid-item:nth-child(9)  { animation-delay: 0.45s; }
+    .grid-item:nth-child(10) { animation-delay: 0.5s; }
+    .grid-item:nth-child(11) { animation-delay: 0.55s; }
+    .grid-item:nth-child(12) { animation-delay: 0.6s; }
+    .grid-item:nth-child(13) { animation-delay: 0.65s; }
+    .grid-item:nth-child(14) { animation-delay: 0.7s; }
 
     /* FOOTER */
     footer {
-      padding: 2rem 3rem;
+      padding: 3rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid #1f1f1d;
+      margin-top: 3px;
     }
 
-    .footer-logo {
+    .footer-text {
       font-family: 'Cormorant Garamond', serif;
       font-size: 0.9rem;
       font-style: italic;
@@ -264,14 +249,18 @@
     }
 
     .footer-copy {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
       color: var(--muted);
-      letter-spacing: 0.1em;
     }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -279,148 +268,155 @@
 
   <nav>
     <a href="/" class="nav-logo">Hypetalk Builds</a>
-    <span class="nav-right">Minecraft Architecture</span>
+    <span class="nav-count">14 Works</span>
   </nav>
 
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
+    <img class="hero-image" src="assets/images/wood_quartz_building.png" alt="Hypetalk Builds" />
+    <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">Hyp<em>e</em>talk<br />Builds</h1>
       <div class="hero-meta">
-        <p class="hero-tag">Works</p>
-        <p class="hero-count">14</p>
+        <p class="hero-tag">Minecraft Architecture</p>
+        <p class="hero-sub">Scroll down</p>
       </div>
     </div>
   </section>
 
-  <section class="grid-section">
-    <div class="section-header">
-      <span class="section-title">Selected Works</span>
+  <!-- GRID -->
+  <main class="grid">
+
+    <div class="grid-item full">
+      <img src="assets/images/frankfurt_facade.png" alt="Frankfurt Facade" loading="lazy" />
+      <span class="item-index">01</span>
+      <div class="item-info">
+        <p class="item-type">Urban / Street</p>
+        <h2 class="item-name">Frankfurt Façade</h2>
+      </div>
     </div>
-    <div class="grid">
 
-      <div class="grid-item featured">
-        <img src="assets/images/frankfurt_facade.png" alt="Frankfurt Facade" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Urban / Street</p>
-          <h2 class="item-title">Frankfurt Façade</h2>
-        </div>
+    <div class="grid-item">
+      <img src="assets/images/frankfurt_tram.png" alt="Frankfurt Tram" loading="lazy" />
+      <span class="item-index">02</span>
+      <div class="item-info">
+        <p class="item-type">Transit</p>
+        <h2 class="item-name">Frankfurt Tram</h2>
       </div>
-
-      <div class="grid-item">
-        <img src="assets/images/frankfurt_tram.png" alt="Frankfurt Tram" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Transit / Infrastructure</p>
-          <h2 class="item-title">Frankfurt Tram</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/sydney_foundation.png" alt="Sydney Foundation" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Civic / Classical</p>
-          <h2 class="item-title">Sydney Foundation</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/wood_quartz_building.png" alt="Wood Quartz Building" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Modern / Commercial</p>
-          <h2 class="item-title">Wood & Quartz Building</h2>
-        </div>
-      </div>
-
-      <div class="grid-item featured">
-        <img src="assets/images/cph_port_building.png" alt="Copenhagen Port Building" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Urban / Waterfront</p>
-          <h2 class="item-title">Copenhagen Port Building</h2>
-        </div>
-      </div>
-
-      <div class="grid-item featured">
-        <img src="assets/images/beachfront_pavilion.png" alt="Beachfront Pavilion" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Landscape / Public Space</p>
-          <h2 class="item-title">Beachfront Pavilion</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/black_building.png" alt="Black Building" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Residential / Modern</p>
-          <h2 class="item-title">Acacia Basalt Home</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/courtyard_restaurant.jpeg" alt="Courtyard Restaurant" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Hospitality / Exterior</p>
-          <h2 class="item-title">Courtyard Restaurant</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/bar_interior.png" alt="Bar Interior" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Interior / Hospitality</p>
-          <h2 class="item-title">Bar Interior</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/office_interior.png" alt="Office Interior" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Interior / Commercial</p>
-          <h2 class="item-title">Office Interior</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/blue_bedroom.png" alt="Blue Bedroom" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Interior / Residential</p>
-          <h2 class="item-title">Blue Bedroom</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/church.png" alt="Church" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Civic / Religious</p>
-          <h2 class="item-title">Church</h2>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="assets/images/cph_wood_home.png" alt="Copenhagen Wood Home" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Residential / Nordic</p>
-          <h2 class="item-title">Copenhagen Wood Home</h2>
-        </div>
-      </div>
-
-      <div class="grid-item featured">
-        <img src="assets/images/acacia_basalt_home.png" alt="Acacia Basalt Home" loading="lazy" />
-        <div class="grid-item-info">
-          <p class="item-label">Residential / Modern</p>
-          <h2 class="item-title">Black Building</h2>
-        </div>
-      </div>
-
     </div>
-  </section>
 
-  <div class="about-strip">
-    <p class="about-label">About</p>
-    <p class="about-text">A collection of <em>architectural builds</em> in Minecraft — exploring urban design, civic spaces, and residential forms across styles ranging from classical European to contemporary modernist.</p>
-  </div>
+    <div class="grid-item">
+      <img src="assets/images/sydney_foundation.png" alt="Sydney Foundation" loading="lazy" />
+      <span class="item-index">03</span>
+      <div class="item-info">
+        <p class="item-type">Civic / Classical</p>
+        <h2 class="item-name">Sydney Foundation</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/wood_quartz_building.png" alt="Wood Quartz Building" loading="lazy" />
+      <span class="item-index">04</span>
+      <div class="item-info">
+        <p class="item-type">Modern / Commercial</p>
+        <h2 class="item-name">Wood & Quartz Building</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/cph_port_building.png" alt="Copenhagen Port Building" loading="lazy" />
+      <span class="item-index">05</span>
+      <div class="item-info">
+        <p class="item-type">Urban / Waterfront</p>
+        <h2 class="item-name">Copenhagen Port Building</h2>
+      </div>
+    </div>
+
+    <div class="grid-item full">
+      <img src="assets/images/beachfront_pavilion.png" alt="Beachfront Pavilion" loading="lazy" />
+      <span class="item-index">06</span>
+      <div class="item-info">
+        <p class="item-type">Landscape / Public Space</p>
+        <h2 class="item-name">Beachfront Pavilion</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/acacia_basalt_home.png" alt="Acacia Basalt Home" loading="lazy" />
+      <span class="item-index">07</span>
+      <div class="item-info">
+        <p class="item-type">Residential / Modern</p>
+        <h2 class="item-name">Acacia Basalt Home</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/black_building.png" alt="Black Building" loading="lazy" />
+      <span class="item-index">08</span>
+      <div class="item-info">
+        <p class="item-type">Residential / Dark</p>
+        <h2 class="item-name">Black Building</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/courtyard_restaurant.jpeg" alt="Courtyard Restaurant" loading="lazy" />
+      <span class="item-index">09</span>
+      <div class="item-info">
+        <p class="item-type">Hospitality / Exterior</p>
+        <h2 class="item-name">Courtyard Restaurant</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/bar_interior.png" alt="Bar Interior" loading="lazy" />
+      <span class="item-index">10</span>
+      <div class="item-info">
+        <p class="item-type">Interior / Hospitality</p>
+        <h2 class="item-name">Bar Interior</h2>
+      </div>
+    </div>
+
+    <div class="grid-item full">
+      <img src="assets/images/cph_wood_home.png" alt="Copenhagen Wood Home" loading="lazy" />
+      <span class="item-index">11</span>
+      <div class="item-info">
+        <p class="item-type">Residential / Nordic</p>
+        <h2 class="item-name">Copenhagen Wood Home</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/office_interior.png" alt="Office Interior" loading="lazy" />
+      <span class="item-index">12</span>
+      <div class="item-info">
+        <p class="item-type">Interior / Commercial</p>
+        <h2 class="item-name">Office Interior</h2>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <img src="assets/images/blue_bedroom.png" alt="Blue Bedroom" loading="lazy" />
+      <span class="item-index">13</span>
+      <div class="item-info">
+        <p class="item-type">Interior / Residential</p>
+        <h2 class="item-name">Blue Bedroom</h2>
+      </div>
+    </div>
+
+    <div class="grid-item full">
+      <img src="assets/images/church.png" alt="Church" loading="lazy" />
+      <span class="item-index">14</span>
+      <div class="item-info">
+        <p class="item-type">Civic / Religious</p>
+        <h2 class="item-name">Church</h2>
+      </div>
+    </div>
+
+  </main>
 
   <footer>
-    <span class="footer-logo">Hypetalk Builds</span>
+    <span class="footer-text">Hypetalk Builds</span>
     <span class="footer-copy">© 2026</span>
   </footer>
 
