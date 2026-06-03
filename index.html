@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hypetalk Builds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e0e0d;
+      --warm: #faf8f5;
+      --muted: #6a6760;
+      --accent: #c8a96e;
+      --border: #1f1f1d;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--warm);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      background: linear-gradient(to bottom, rgba(14,14,13,0.9), transparent);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--warm);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-right {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/images/wood_quartz_building.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.45);
+    }
+
+    .hero-content {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-meta {
+      text-align: right;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .hero-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
+    /* GRID */
+    .grid-section {
+      padding: 6rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* Featured item spans 2 cols */
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--border);
+    }
+
+    .grid-item.featured {
+      grid-column: span 2;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+      filter: brightness(0.85);
+    }
+
+    .grid-item:not(.featured) {
+      aspect-ratio: 4/3;
+    }
+
+    .grid-item.featured {
+      aspect-ratio: 16/9;
+    }
+
+    .grid-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1);
+    }
+
+    .grid-item-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+      transform: translateY(4px);
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item:hover .grid-item-info {
+      transform: translateY(0);
+    }
+
+    .item-label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .item-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--warm);
+      line-height: 1.2;
+    }
+
+    .grid-item.featured .item-title {
+      font-size: 1.6rem;
+    }
+
+    /* ABOUT STRIP */
+    .about-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto 6rem;
+    }
+
+    .about-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .about-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--warm);
+    }
+
+    .about-text em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">Hypetalk Builds</a>
+    <span class="nav-right">Minecraft Architecture</span>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Hyp<em>e</em>talk<br />Builds</h1>
+      <div class="hero-meta">
+        <p class="hero-tag">Works</p>
+        <p class="hero-count">14</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <div class="section-header">
+      <span class="section-title">Selected Works</span>
+    </div>
+    <div class="grid">
+
+      <div class="grid-item featured">
+        <img src="assets/images/frankfurt_facade.png" alt="Frankfurt Facade" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Urban / Street</p>
+          <h2 class="item-title">Frankfurt Façade</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/frankfurt_tram.png" alt="Frankfurt Tram" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Transit / Infrastructure</p>
+          <h2 class="item-title">Frankfurt Tram</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/sydney_foundation.png" alt="Sydney Foundation" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Civic / Classical</p>
+          <h2 class="item-title">Sydney Foundation</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/wood_quartz_building.png" alt="Wood Quartz Building" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Modern / Commercial</p>
+          <h2 class="item-title">Wood & Quartz Building</h2>
+        </div>
+      </div>
+
+      <div class="grid-item featured">
+        <img src="assets/images/cph_port_building.png" alt="Copenhagen Port Building" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Urban / Waterfront</p>
+          <h2 class="item-title">Copenhagen Port Building</h2>
+        </div>
+      </div>
+
+      <div class="grid-item featured">
+        <img src="assets/images/beachfront_pavilion.png" alt="Beachfront Pavilion" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Landscape / Public Space</p>
+          <h2 class="item-title">Beachfront Pavilion</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/black_building.png" alt="Black Building" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Residential / Modern</p>
+          <h2 class="item-title">Acacia Basalt Home</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/courtyard_restaurant.jpeg" alt="Courtyard Restaurant" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Hospitality / Exterior</p>
+          <h2 class="item-title">Courtyard Restaurant</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/bar_interior.png" alt="Bar Interior" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Interior / Hospitality</p>
+          <h2 class="item-title">Bar Interior</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/office_interior.png" alt="Office Interior" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Interior / Commercial</p>
+          <h2 class="item-title">Office Interior</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/blue_bedroom.png" alt="Blue Bedroom" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Interior / Residential</p>
+          <h2 class="item-title">Blue Bedroom</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/church.png" alt="Church" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Civic / Religious</p>
+          <h2 class="item-title">Church</h2>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="assets/images/cph_wood_home.png" alt="Copenhagen Wood Home" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Residential / Nordic</p>
+          <h2 class="item-title">Copenhagen Wood Home</h2>
+        </div>
+      </div>
+
+      <div class="grid-item featured">
+        <img src="assets/images/acacia_basalt_home.png" alt="Acacia Basalt Home" loading="lazy" />
+        <div class="grid-item-info">
+          <p class="item-label">Residential / Modern</p>
+          <h2 class="item-title">Black Building</h2>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="about-strip">
+    <p class="about-label">About</p>
+    <p class="about-text">A collection of <em>architectural builds</em> in Minecraft — exploring urban design, civic spaces, and residential forms across styles ranging from classical European to contemporary modernist.</p>
+  </div>
+
+  <footer>
+    <span class="footer-logo">Hypetalk Builds</span>
+    <span class="footer-copy">© 2026</span>
+  </footer>
+
+</body>
+</html>
